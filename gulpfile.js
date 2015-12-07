@@ -1,10 +1,17 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 
-gulp.task('default', function () {
-  return gulp.src('src/**/*.js')
+gulp.task('es2015', function () {
+  gulp.src('src/bin/**/*.js')
     .pipe(babel({
       presets: ['es2015'],
     }))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('bin'));
+  gulp.src(['src/**/*.js', '!src/bin/**/*.js'])
+    .pipe(babel({
+      presets: ['es2015'],
+    }))
+    .pipe(gulp.dest('.'));
 });
+
+gulp.task('default', ['es2015']);

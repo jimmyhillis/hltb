@@ -2,9 +2,10 @@
   "name": "hltb",
   "version": "1.0.0",
   "description": "A module for pulling time data from HLTB",
-  "main": "bin/cli.js",
+  "main": "lib/hltb.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cli": "node bin/cli.js",
+    "prepublish": "gulp es2015"
   },
   "author": "Jimmy Hillis <jimmy@hillis.me>",
   "license": "MIT",
