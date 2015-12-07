@@ -9,7 +9,11 @@ if (gameSearch === null) {
 }
 
 HLTB.search(gameSearch, function (err, games) {
-  games.forEach(function (game) {
+  if (err) {
+    console.error(err);
+    return process.exit(1);
+  }
+  return games.forEach(function (game) {
     console.log(game.title, 'is', game.getTimeFor(game.MAIN));
   });
 });
