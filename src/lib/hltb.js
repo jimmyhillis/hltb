@@ -33,23 +33,20 @@ export default class HLTB {
       if (items.length < 2) {
         break;
       }
-      const [label='', timePortion=''] = items.splice(0, 2);
+      const [label = '', timePortion = ''] = items.splice(0, 2);
       let minutes;
       // convert timePortion string into minutes
       if (timePortion.toLowerCase().indexOf('hours') > -1) {
-        let [hours, ...junk] = timePortion.split(' ');
+        const [hours, ...junk] = timePortion.split(' ');
         if (hours.indexOf('½') > -1) {
           minutes = (parseInt(hours.replace(/½/, ''), 10) * 60) + 30;
-        }
-        else {
+        } else {
           minutes = parseInt(hours, 10) * 60;
         }
-      }
-      else if (timePortion.toLowerCase().indexOf('mins') > -1) {
+      } else if (timePortion.toLowerCase().indexOf('mins') > -1) {
         minutes = parseInt(timePortion.split(' ').shift(), 10);
-      }
-      else {
-        console.warn(`Found a time that cannot be parsed ${timePortion}`)
+      } else {
+        console.warn(`Found a time that cannot be parsed ${timePortion}`);
       }
       pairs.set(label, minutes);
     }

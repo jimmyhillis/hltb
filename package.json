@@ -4,13 +4,17 @@
   "description": "A module for pulling time data from HLTB",
   "main": "lib/hltb.js",
   "scripts": {
+    "prepublish": "gulp es2015",
     "cli": "node bin/cli.js",
-    "prepublish": "gulp es2015"
+    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "test": "npm run lint"
   },
   "author": "Jimmy Hillis <jimmy@hillis.me>",
   "license": "MIT",
   "dependencies": {
     "babel-core": "^6.3.17",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
     "minimist": "^1.2.0",
     "request": "^2.67.0",
     "x-ray": "^2.0.2"
@@ -19,8 +23,6 @@
     "babel-eslint": "^4.1.6",
     "babel-preset-es2015": "^6.3.13",
     "eslint": "^1.10.3",
-    "eslint-config-airbnb": "^2.0.0",
-    "gulp": "^3.9.0",
-    "gulp-babel": "^6.1.1"
+    "eslint-config-airbnb": "^2.0.0"
   }
 }
