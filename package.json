@@ -10,6 +10,7 @@
   "author": "Jimmy Hillis <jimmy@hillis.me>",
   "license": "MIT",
   "dependencies": {
+    "babel-core": "^6.3.17",
     "minimist": "^1.2.0",
     "request": "^2.67.0",
     "x-ray": "^2.0.2"

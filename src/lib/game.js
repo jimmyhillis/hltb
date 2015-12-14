@@ -1,11 +1,11 @@
 export default class Game {
   constructor(title, times) {
     this.title = title;
-    this.times = times || [];
+    this.times = times || new Map();
   }
   // Return the time (in hours) for provided category
   getTimeFor(category) {
-    return this.times[category] || null;
+    return this.times.get(category);
   }
 }
 

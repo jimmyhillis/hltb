@@ -8,11 +8,12 @@ export default class HLTB {
   // Return a response from the HLTB website
   // Example CURL request:
   //   curl 'http://howlongtobeat.com/search_main.php?page=1' \
-  //     --data 'queryString=radiant%20historia&t=games&sorthead=popular&sortd=Normal Order&plat=&detail=0'
+  //     --data 'queryString=radiant%20historia&t=games&sorthead=popular' \
+  //     --data '&sortd=Normal Order&plat=&detail=0'
   // @param {string} search String to search
   // @param {callback} Function to pass success or error
   static request(search, callback) {
-    const formData = {
+    const form = {
       queryString: search,
       t: 'games',
       sorthead: 'popular',
@@ -20,20 +21,37 @@ export default class HLTB {
       plat: '',
       detail: 0,
     };
-    return request.post(HLTB_API, { form: formData }, callback);
+    return request.post(HLTB_API, { form }, callback);
   }
   // Converts an array of [key, value, key, value] length scores
   // into a usable object of { key: value } where value is the number
   // of minutes or `null` when unknown
   // @param {[string]} items Consective array of [key, value, key, value ...]
   static parseTimes(items) {
-    const pairs = {};
+    const pairs = new Map();
     while (items.length) {
       if (items.length < 2) {
         break;
       }
-      const pair = items.splice(0, 2);
-      pairs[pair[0]] = pair[1];
+      const [label='', timePortion=''] = items.splice(0, 2);
+      let minutes;
+      // convert timePortion string into minutes
+      if (timePortion.toLowerCase().indexOf('hours') > -1) {
+        let [hours, ...junk] = timePortion.split(' ');
+        if (hours.indexOf('½') > -1) {
+          minutes = (parseInt(hours.replace(/½/, ''), 10) * 60) + 30;
+        }
+        else {
+          minutes = parseInt(hours, 10) * 60;
+        }
+      }
+      else if (timePortion.toLowerCase().indexOf('mins') > -1) {
+        minutes = parseInt(timePortion.split(' ').shift(), 10);
+      }
+      else {
+        console.warn(`Found a time that cannot be parsed ${timePortion}`)
+      }
+      pairs.set(label, minutes);
     }
     return pairs;
   }
