@@ -1,6 +1,6 @@
 {
   "name": "hltb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A module for pulling time data from HLTB",
   "main": "lib/hltb.js",
   "scripts": {
