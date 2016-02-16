@@ -4,6 +4,28 @@ import Game from './game';
 
 const HLTB_API = 'http://howlongtobeat.com/search_main.php?&page=1';
 
+const replacementExpression = /™|®|-|:|Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ|Ⅼ|Ⅽ|Ⅾ|Ⅿ/;
+const replacer = (str) => {
+  return {
+    'Ⅰ': 'I',
+    'Ⅱ': 'II',
+    'Ⅲ': 'III',
+    'Ⅳ': 'IV',
+    'Ⅴ': 'V',
+    'Ⅵ': 'VI',
+    'Ⅶ': 'VII',
+    'Ⅷ': 'VIII',
+    'Ⅸ': 'IX',
+    'Ⅹ': 'X',
+    'Ⅺ': 'XI',
+    'Ⅻ': 'XII',
+    'Ⅼ': 'L',
+    'Ⅽ': 'C',
+    'Ⅾ': 'D',
+    'Ⅿ': 'M',
+  }[str] || '';
+};
+
 export default class HLTB {
   // Return a response from the HLTB website
   // Example CURL request:
@@ -13,8 +35,10 @@ export default class HLTB {
   // @param {string} search String to search
   // @param {callback} Function to pass success or error
   static request(search, callback) {
+    // Remove characters known to break games on HLTB searches
+    const queryString = search.replace(replacementExpression, replacer);
     const form = {
-      queryString: search,
+      queryString,
       t: 'games',
       sorthead: 'popular',
       sortd: 'Normal Order',
