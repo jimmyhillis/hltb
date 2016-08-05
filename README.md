@@ -2,11 +2,17 @@
 
 A javascript (node + browser) module for pulling time data from [HLTB](http://howlongtobeat.com).
 
+## Installation
+
+```
+npm install hltb  # -g if you want the command line tools
+```
+
 ## Usage
 
 To use the API within your code you can use `#search` to return all the games that match the provided string, with access to each time.
 
-```
+```js
 import HLTB from '../lib/hltb';
 
 HLTB.search({{game title}}, (err, games) => {
@@ -31,8 +37,9 @@ Each time returned is in minutes.
 A CLI is also available for quickly searching users data to use in your shell.
 
 ```bash
+npm install -g hltb
 # return all games belonging to {{username}} in JSON format
-npm run cli {{game title}}
+hltb {{game title}}
 ```
 
 # License

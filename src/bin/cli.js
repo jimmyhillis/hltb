@@ -1,11 +1,13 @@
+#!/usr/bin/env node
+
 import minimist from 'minimist';
 import HLTB from '../lib/hltb';
 
 const argv = minimist(process.argv.slice(2));
 const gameSearch = argv.game || argv._[0];
 
-if (gameSearch === null) {
-  console.error('Please provide a game to search');
+if (!gameSearch) {
+  console.error('Provide a game to search');
   process.exit(1);
 }
 
