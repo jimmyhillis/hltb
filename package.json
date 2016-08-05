@@ -1,8 +1,11 @@
 {
   "name": "hltb",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A module for pulling time data from HLTB",
   "main": "lib/hltb.js",
+  "bin": {
+    "hltb": "./bin/cli.js"
+  },
   "scripts": {
     "prepublish": "gulp es2015",
     "cli": "node bin/cli.js",
