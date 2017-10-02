@@ -73,7 +73,8 @@ function parseTimes(items) {
     } else if (timePortion.toLowerCase().indexOf('mins') > -1) {
       minutes = parseInt(timePortion.split(' ').shift(), 10);
     } else {
-      console.warn(`Found a time that cannot be parsed ${timePortion}`);
+      // TODO add support for logging a wraning
+      // console.warn(`Found a time that cannot be parsed ${timePortion}`);
     }
     pairs.set(label, minutes);
   }

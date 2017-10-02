@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+/* eslint-disable no-console */
 import minimist from 'minimist';
 import * as HLTB from '../lib/hltb';
 
@@ -20,3 +21,4 @@ HLTB.search(gameSearch, (err, games) => {
     console.log(`${game.title} is ${game.getTimeFor(game.MAIN)} minutes`);
   });
 });
+/* eslint-enable no-console */
