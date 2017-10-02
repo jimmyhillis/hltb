@@ -16,7 +16,7 @@ HLTB.search(gameSearch, (err, games) => {
     console.error(err);
     return process.exit(1);
   }
-  return games.forEach((game) => {
+  return games.forEach(game => {
     console.log(`${game.title} is ${game.getTimeFor(game.MAIN)} minutes`);
   });
 });

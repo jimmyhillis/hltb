@@ -5,25 +5,27 @@ import Game from './game';
 const HLTB_API = 'https://howlongtobeat.com/search_main.php?&page=1';
 
 const replacementExpression = /™|®|-|:|Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ|Ⅼ|Ⅽ|Ⅾ|Ⅿ/;
-const replacer = (str) => {
-  return {
-    'Ⅰ': 'I',
-    'Ⅱ': 'II',
-    'Ⅲ': 'III',
-    'Ⅳ': 'IV',
-    'Ⅴ': 'V',
-    'Ⅵ': 'VI',
-    'Ⅶ': 'VII',
-    'Ⅷ': 'VIII',
-    'Ⅸ': 'IX',
-    'Ⅹ': 'X',
-    'Ⅺ': 'XI',
-    'Ⅻ': 'XII',
-    'Ⅼ': 'L',
-    'Ⅽ': 'C',
-    'Ⅾ': 'D',
-    'Ⅿ': 'M',
-  }[str] || '';
+const replacer = str => {
+  return (
+    {
+      Ⅰ: 'I',
+      Ⅱ: 'II',
+      Ⅲ: 'III',
+      Ⅳ: 'IV',
+      Ⅴ: 'V',
+      Ⅵ: 'VI',
+      Ⅶ: 'VII',
+      Ⅷ: 'VIII',
+      Ⅸ: 'IX',
+      Ⅹ: 'X',
+      Ⅺ: 'XI',
+      Ⅻ: 'XII',
+      Ⅼ: 'L',
+      Ⅽ: 'C',
+      Ⅾ: 'D',
+      Ⅿ: 'M',
+    }[str] || ''
+  );
 };
 
 export default class HLTB {
@@ -63,7 +65,7 @@ export default class HLTB {
       if (timePortion.toLowerCase().indexOf('hours') > -1) {
         const [hours, ...junk] = timePortion.split(' ');
         if (hours.indexOf('½') > -1) {
-          minutes = (parseInt(hours.replace(/½/, ''), 10) * 60) + 30;
+          minutes = parseInt(hours.replace(/½/, ''), 10) * 60 + 30;
         } else {
           minutes = parseInt(hours, 10) * 60;
         }
@@ -81,17 +83,22 @@ export default class HLTB {
   // @param {callback} Function to pass success or error
   static scrapeData(html, callback) {
     const xray = new Xray();
-    const scraper = xray(html, '.search_list_details', [{
-      title: 'h3',
-      scores: ['.search_list_tidbit'],
-    }]);
+    const scraper = xray(html, '.search_list_details', [
+      {
+        title: 'h3',
+        scores: ['.search_list_tidbit'],
+      },
+    ]);
     scraper((err, data) => {
       if (err) {
         return callback(err);
       }
-      return callback(null, data.map(item => {
-        return new Game(item.title, HLTB.parseTimes(item.scores));
-      }));
+      return callback(
+        null,
+        data.map(item => {
+          return new Game(item.title, HLTB.parseTimes(item.scores));
+        })
+      );
     });
   }
   static search(game, callback) {
