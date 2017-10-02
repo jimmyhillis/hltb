@@ -13,9 +13,9 @@ npm install hltb  # -g if you want the command line tools
 To use the API within your code you can use `#search` to return all the games that match the provided string, with access to each time.
 
 ```js
-import HLTB from '../lib/hltb';
+import * as hltb from '../lib/hltb';
 
-HLTB.search({{game title}}, (err, games) => {
+hltb.search({{game title}}, (err, games) => {
   console.log(`we found ${games.length} matching games`);
   games.forEach((game) => {
     console.log(games.getTimeForGame(game.MAIN));

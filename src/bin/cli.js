@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import minimist from 'minimist';
-import HLTB from '../lib/hltb';
+import * as HLTB from '../lib/hltb';
 
 const argv = minimist(process.argv.slice(2));
 const gameSearch = argv.game || argv._[0];
