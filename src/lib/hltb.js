@@ -2,7 +2,7 @@ import request from 'request';
 import Xray from 'x-ray';
 import Game from './game';
 
-const HLTB_API = 'http://howlongtobeat.com/search_main.php?&page=1';
+const HLTB_API = 'https://howlongtobeat.com/search_main.php?&page=1';
 
 const replacementExpression = /™|®|-|:|Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ|Ⅼ|Ⅽ|Ⅾ|Ⅿ/;
 const replacer = (str) => {
