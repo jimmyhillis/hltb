@@ -5,28 +5,25 @@ import Game from './game';
 const HLTB_API = 'https://howlongtobeat.com/search_main.php?&page=1';
 
 const replacementExpression = /™|®|-|:|Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ|Ⅼ|Ⅽ|Ⅾ|Ⅿ/;
-const replacer = str => {
-  return (
-    {
-      Ⅰ: 'I',
-      Ⅱ: 'II',
-      Ⅲ: 'III',
-      Ⅳ: 'IV',
-      Ⅴ: 'V',
-      Ⅵ: 'VI',
-      Ⅶ: 'VII',
-      Ⅷ: 'VIII',
-      Ⅸ: 'IX',
-      Ⅹ: 'X',
-      Ⅺ: 'XI',
-      Ⅻ: 'XII',
-      Ⅼ: 'L',
-      Ⅽ: 'C',
-      Ⅾ: 'D',
-      Ⅿ: 'M',
-    }[str] || ''
-  );
+const replacementValues = {
+  Ⅰ: 'I',
+  Ⅱ: 'II',
+  Ⅲ: 'III',
+  Ⅳ: 'IV',
+  Ⅴ: 'V',
+  Ⅵ: 'VI',
+  Ⅶ: 'VII',
+  Ⅷ: 'VIII',
+  Ⅸ: 'IX',
+  Ⅹ: 'X',
+  Ⅺ: 'XI',
+  Ⅻ: 'XII',
+  Ⅼ: 'L',
+  Ⅽ: 'C',
+  Ⅾ: 'D',
+  Ⅿ: 'M',
 };
+const replacer = str => replacementValues[str] || '';
 
 // Return a response from the HLTB website
 // Example CURL request:
@@ -64,7 +61,7 @@ function parseTimes(items) {
     let minutes;
     // convert timePortion string into minutes
     if (timePortion.toLowerCase().indexOf('hours') > -1) {
-      const [hours, ...junk] = timePortion.split(' ');
+      const [hours, ...rest] = timePortion.split(' ');
       if (hours.indexOf('½') > -1) {
         minutes = parseInt(hours.replace(/½/, ''), 10) * 60 + 30;
       } else {
@@ -73,7 +70,8 @@ function parseTimes(items) {
     } else if (timePortion.toLowerCase().indexOf('mins') > -1) {
       minutes = parseInt(timePortion.split(' ').shift(), 10);
     } else {
-      console.warn(`Found a time that cannot be parsed ${timePortion}`);
+      // TODO add support for logging a wraning
+      // console.warn(`Found a time that cannot be parsed ${timePortion}`);
     }
     pairs.set(label, minutes);
   }
@@ -97,13 +95,14 @@ function scrapeData(html, callback) {
     }
     return callback(
       null,
-      data.map(item => {
-        return new Game(item.title, parseTimes(item.scores));
-      })
+      data.map(item => new Game(item.title, parseTimes(item.scores)))
     );
   });
 }
 
+// Search HLTB for game and return structured time data
+// @param {string} game to search for
+// @param {[string]} items Consective array of [key, value, key, value ...]
 export function search(game, callback) {
   request(game, (err, response) => {
     if (err) {
